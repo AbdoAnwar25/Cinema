@@ -1,0 +1,89 @@
+﻿
+
+                                    @model IEnumerable<Actor>
+
+<div class="content">
+    <div class="container-fluid px-4">
+        <!-- Header Section -->
+        <div class="row align-items-center py-4">
+            <div class="col-sm-6">
+                <h3 class="fw-bold text-dark mb-0">Actors Management</h3>
+            </div>
+            <div class="col-sm-6 text-sm-end mt-3 mt-sm-0">
+                <a href="/Admin/Actor/Create" class="btn btn-primary px-4 py-2 shadow-sm">
+                    <i class="fas fa-plus me-1"></i> Add New Actor
+                </a>
+            </div>
+        </div>
+
+        <!-- Table Card Section -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm rounded-3">
+                    <div class="card-body p-4">
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-striped align-middle mb-0">
+                                <thead class="table-light text-uppercase">
+                                    <tr>
+                                        <th scope="col" class="py-3" style="font-size: 0.85rem; font-weight: 700;">#ID</th>
+                                        <th scope="col" class="py-3" style="font-size: 0.85rem; font-weight: 700;">Photo</th>
+                                        <th scope="col" class="py-3" style="font-size: 0.85rem; font-weight: 700;">Actor Name</th>
+                                        <th scope="col" class="py-3" style="font-size: 0.85rem; font-weight: 700;">Description</th>
+                                        <th scope="col" class="py-3 text-center" style="font-size: 0.85rem; font-weight: 700;">Manage Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <th scope="row" class="fw-semibold text-secondary">@item.Id</th>
+                                            <td>
+                                                <img src="~/images/@item.Logo" alt="@item.Name" class="rounded-circle shadow-sm" style="width: 45px; height: 45px; object-fit: cover;" />
+                                            </td>
+                                            <td class="fw-bold text-dark">@item.Name</td>
+                                            <td class="text-muted text-truncate" style="max-width: 250px;">@item.Description</td>
+                                            <td class="text-center text-nowrap">
+                                                <a href="/Admin/Actor/Update/@item.Id" class="btn btn-sm btn-outline-warning px-3 me-1">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </a>
+                                                <a href="/Admin/Actor/Delete/@item.Id" class="btn btn-sm btn-outline-danger px-3 btn-delete">
+                                                    <i class="fas fa-trash-alt"></i> Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 🚀 أزرار الـ Pagination -->
+                        @if (ViewBag.TotalPages > 1)
+                        {
+                            <nav aria-label="Page navigation" class="mt-4">
+                                <ul class="pagination justify-content-center mb-0">
+                                    <!-- زر الصفحة السابقة -->
+                                    <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                                        <a class="page-link" href="/Admin/Actor/Index?pageNumber=@(ViewBag.CurrentPage - 1)">Previous</a>
+                                    </li>
+
+                                    <!-- أرقام الصفحات -->
+                                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                                    {
+                                        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                                            <a class="page-link" href="/Admin/Actor/Index?pageNumber=@i">@i</a>
+                                        </li>
+                                    }
+
+                                    <!-- زر الصفحة التالية -->
+                                    <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                                        <a class="page-link" href="/Admin/Actor/Index?pageNumber=@(ViewBag.CurrentPage + 1)">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
